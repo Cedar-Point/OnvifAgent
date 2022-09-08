@@ -13,7 +13,7 @@ app.MapPost("/{IPAddress}", async (e) =>
     try
     {
         string path = "/onvif/device_service";
-        if (e.Request.Query["path"] != null) path = e.Request.Query["path"];
+        if (e.Request.Query.ContainsKey("path")) path = e.Request.Query["path"];
         WebClient wc = new();
         wc.Credentials = new NetworkCredential(e.Request.Query["user"], e.Request.Query["pass"]);
         string result = await wc.UploadStringTaskAsync("http://" + e.Request.RouteValues["IPAddress"] + path, await new StreamReader(e.Request.Body).ReadToEndAsync());
